@@ -63,7 +63,9 @@ docker:
 
 ## Installation
 
-If you're using Go:
+Download a release from the [releases tab](https://github.com/bradcypert/shush/releases) and add that to your path.
+
+Alternatively, if you're using Go:
 
 ```bash
 go install github.com/bradcypert/shush@latest
