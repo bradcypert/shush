@@ -26,7 +26,7 @@ cat example.txt | shush
 }
 ```
 
-Shush is built ontop of Gitleak's detection engine so it supports all the same secrets and keys that gitleaks does. However, we also support generic passwords and generic secrets using regex matches. If you want to disable these, you can do so with a flag: `--showSecrets=true` or `--showPasswords=true`.
+Shush is built ontop of [Gitleak's detection engine](https://gitleaks.io/) so it supports all the same secrets and keys that gitleaks does. However, we also support generic passwords and generic secrets using regex matches. If you'd like to disable these, you can do so with a flag: `--showSecrets=true` or `--showPasswords=true`, however, the Gitleaks matches will stay on.
 
 ```bash
 shush < hosts.yml
