@@ -39,20 +39,24 @@ var rootCmd = &cobra.Command{
 			panic(err)
 		}
 
-		cfg.Rules["shush:password"] = config.Rule{
-			Description: "Password",
-			RuleID:      "Generic password",
-			Regex:       regexp.MustCompile("(password|pass|pwd|passwd|passphrase)( *:| *-) (.*)"),
-			SecretGroup: 3,
-			Keywords:    []string{"password", "pass", "pwd", "passwd", "passphrase", "passphrase"},
+		if showPasswords, _ := cmd.Flags().GetBool("showPasswords"); showPasswords == false {
+			cfg.Rules["shush:password"] = config.Rule{
+				Description: "Password",
+				RuleID:      "Generic password",
+				Regex:       regexp.MustCompile("(password|pass|pwd|passwd|passphrase)( *:| *-) (.*)"),
+				SecretGroup: 3,
+				Keywords:    []string{"password", "pass", "pwd", "passwd", "passphrase", "passphrase"},
+			}
 		}
 
-		cfg.Rules["shush:secret"] = config.Rule{
-			Description: "Secret",
-			RuleID:      "Generic secrets",
-			Regex:       regexp.MustCompile("secret( *:| *-) (.*)$"),
-			SecretGroup: 1,
-			Keywords:    []string{"secret"},
+		if showSecrets, _ := cmd.Flags().GetBool("showSecrets"); showSecrets == false {
+			cfg.Rules["shush:secret"] = config.Rule{
+				Description: "Secret",
+				RuleID:      "Generic secrets",
+				Regex:       regexp.MustCompile("secret( *:| *-) (.*)$"),
+				SecretGroup: 1,
+				Keywords:    []string{"secret"},
+			}
 		}
 
 		detector := detect.NewDetector(cfg)
@@ -98,5 +102,6 @@ func init() {
 
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
-	// rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	rootCmd.Flags().BoolP("showPasswords", "p", false, "Dont redact generic passwords")
+	rootCmd.Flags().BoolP("showSecrets", "s", false, "Dont redact generic secrets")
 }
