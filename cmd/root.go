@@ -39,7 +39,7 @@ var rootCmd = &cobra.Command{
 			panic(err)
 		}
 
-		if showPasswords, _ := cmd.Flags().GetBool("showPasswords"); showPasswords == false {
+		if showPasswords, _ := cmd.Flags().GetBool("showPasswords"); !showPasswords {
 			cfg.Rules["shush:password"] = config.Rule{
 				Description: "Password",
 				RuleID:      "Generic password",
@@ -49,7 +49,7 @@ var rootCmd = &cobra.Command{
 			}
 		}
 
-		if showSecrets, _ := cmd.Flags().GetBool("showSecrets"); showSecrets == false {
+		if showSecrets, _ := cmd.Flags().GetBool("showSecrets"); !showSecrets {
 			cfg.Rules["shush:secret"] = config.Rule{
 				Description: "Secret",
 				RuleID:      "Generic secrets",
@@ -60,7 +60,14 @@ var rootCmd = &cobra.Command{
 		}
 
 		detector := detect.NewDetector(cfg)
-		b, err := io.ReadAll(os.Stdin)
+
+		var b []byte
+		if len(args) == 0 {
+			b, err = io.ReadAll(os.Stdin)
+		} else {
+			b, err = os.ReadFile(args[0])
+		}
+
 		if err != nil {
 			panic(err)
 		}
