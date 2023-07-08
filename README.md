@@ -4,9 +4,25 @@ Shush is a simple program for redacting secrets from a provided block of text.
 Example:
 
 ```bash
+shush ./example.txt
+{
+    token: "[[REDACTED]]"
+}
+```
+
+Shush also supports reading from STDIN and writes to STDOUT.
+
+```bash
 shush < ./example.txt
 {
-    token: "[[REDACTED]]
+    token: "[[REDACTED]]"
+}
+
+## Or
+
+cat example.txt | shush
+{
+    token: "[[REDACTED]]"
 }
 ```
 
