@@ -6,6 +6,7 @@ package cmd
 import (
 	"io"
 	"os"
+	"regexp"
 	"strings"
 
 	"github.com/spf13/cobra"
@@ -36,6 +37,22 @@ var rootCmd = &cobra.Command{
 		cfg, err := defaultViperConfig.Translate()
 		if err != nil {
 			panic(err)
+		}
+
+		cfg.Rules["shush:password"] = config.Rule{
+			Description: "Password",
+			RuleID:      "Generic password",
+			Regex:       regexp.MustCompile("(password|pass|pwd|passwd|passphrase)( *:| *-) (.*)"),
+			SecretGroup: 3,
+			Keywords:    []string{"password", "pass", "pwd", "passwd", "passphrase", "passphrase"},
+		}
+
+		cfg.Rules["shush:secret"] = config.Rule{
+			Description: "Secret",
+			RuleID:      "Generic secrets",
+			Regex:       regexp.MustCompile("secret( *:| *-) (.*)$"),
+			SecretGroup: 1,
+			Keywords:    []string{"secret"},
 		}
 
 		detector := detect.NewDetector(cfg)
