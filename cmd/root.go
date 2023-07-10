@@ -1,6 +1,3 @@
-/*
-Copyright © 2023 NAME HERE <EMAIL ADDRESS>
-*/
 package cmd
 
 import (
@@ -43,8 +40,8 @@ var rootCmd = &cobra.Command{
 			cfg.Rules["shush:password"] = config.Rule{
 				Description: "Password",
 				RuleID:      "Generic password",
-				Regex:       regexp.MustCompile("(password|pass|pwd|passwd|passphrase)( *:| *-) (.*)"),
-				SecretGroup: 3,
+				Regex:       regexp.MustCompile("['\"]?(password|pass|pwd|passwd|passphrase)['\"]?[[:space:]]?[:-]?[[:space:]]?['\"]?([^'\"\r\n]*)['\"]?"),
+				SecretGroup: 2,
 				Keywords:    []string{"password", "pass", "pwd", "passwd", "passphrase", "passphrase"},
 			}
 		}
@@ -53,8 +50,8 @@ var rootCmd = &cobra.Command{
 			cfg.Rules["shush:secret"] = config.Rule{
 				Description: "Secret",
 				RuleID:      "Generic secrets",
-				Regex:       regexp.MustCompile("secret( *:| *-) (.*)$"),
-				SecretGroup: 1,
+				Regex:       regexp.MustCompile("['\"]?(secret)['\"]?[[:space:]]?[:-]?[[:space:]]?['\"]?([^'\"\r\n]*)['\"]?"),
+				SecretGroup: 2,
 				Keywords:    []string{"secret"},
 			}
 		}
